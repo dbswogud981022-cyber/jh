@@ -1,0 +1,16 @@
+name: iOS CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { flutter-version: 'stable' }
+      - run: cd app && flutter pub get && flutter analyze && flutter test
+      - run: |
+          cd app
+          flutter build ipa --release \
+            --no-codesign \
+            --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL_STG }} \
+            --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY_STG }}

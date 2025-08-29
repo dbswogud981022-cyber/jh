@@ -50,7 +50,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // 잔액 카드
-                const BalanceCard(
+                BalanceCard(
                   balance: 250000,                             // (뜻: 목업 잔액)
                   nextDue: DateTime(2025, 9, 1),
                   nextAmount: 1000000,

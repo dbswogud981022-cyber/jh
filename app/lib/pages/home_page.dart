@@ -1,9 +1,7 @@
-// 하단바를 메인/OO페이/마이/설정으로 교체
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import '../design/tokens.dart';
-import '../services/mock_data.dart';
+import 'package:app/design/tokens.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,11 +17,13 @@ class _HomePageState extends State<HomePage> {
     final appBar = AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
-      title: const Text('메인', style: TextStyle(fontWeight: FontWeight.w700)),
+      title:
+          const Text('올페이 메인', style: TextStyle(fontWeight: FontWeight.w700)),
       actions: [
         IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications_none, color: Colors.black)),
+          onPressed: () {},
+          icon: const Icon(Icons.notifications_none, color: Colors.black),
+        ),
       ],
     );
 
@@ -42,14 +42,16 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: const [
           Expanded(
-            child: Text('최저 수수료 혜택 받기 >',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
-                maxLines: 2),
+            child: Text(
+              '월세 카드결제\n최저 수수료 혜택 받기 >',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600),
+              maxLines: 2,
+            ),
           ),
-          Icon(Icons.card_giftcard, color: Colors.white, size: 28),
+          Icon(Icons.credit_card, color: Colors.white, size: 28),
         ],
       ),
     )
@@ -57,59 +59,10 @@ class _HomePageState extends State<HomePage> {
         .fadeIn(duration: 260.ms)
         .moveY(begin: 8, end: 0, duration: 260.ms);
 
-    final benefits = SizedBox(
-      height: 150,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (_, i) {
-          final list = MockData.benefits();
-          final b = list[i % list.length];
-          return Container(
-            width: 220,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(.08),
-                    blurRadius: 20,
-                    spreadRadius: -10)
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(b.title,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w700, fontSize: 16)),
-                const SizedBox(height: 6),
-                Text(b.subtitle, style: const TextStyle(color: Colors.black54)),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(b.vendor,
-                        style: const TextStyle(color: Colors.black54)),
-                    const Icon(Icons.download_outlined),
-                  ],
-                ),
-              ],
-            ),
-          )
-              .animate()
-              .fadeIn(duration: 200.ms)
-              .moveY(begin: 6, end: 0, duration: 200.ms);
-        },
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
-        itemCount: 6,
-      ),
-    );
-
     final bottomNav = NavigationBar(
       destinations: const [
         NavigationDestination(icon: Icon(Icons.home), label: '메인'),
-        NavigationDestination(icon: Icon(Icons.credit_card), label: 'OO페이'),
+        NavigationDestination(icon: Icon(Icons.credit_card), label: '올페이'),
         NavigationDestination(icon: Icon(Icons.person), label: '마이'),
         NavigationDestination(icon: Icon(Icons.settings), label: '설정'),
       ],
@@ -127,18 +80,57 @@ class _HomePageState extends State<HomePage> {
       appBar: appBar,
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+          padding: AppSpace.page,
           children: [
             banner,
-            const SizedBox(height: 16),
-            const Text('생활 혜택',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-            const SizedBox(height: 12),
-            benefits,
+            AppSpace.sectionGap,
+            const Text('올페이 주요 기능', style: AppText.h2),
+            AppSpace.listGap,
+            _FeatureCard(icon: Icons.home, title: '월세 카드결제', desc: '수수료 절감 혜택'),
+            _FeatureCard(
+                icon: Icons.insert_drive_file,
+                title: '계약서 관리',
+                desc: '계약서 업로드 및 검수'),
+            _FeatureCard(
+                icon: Icons.bar_chart, title: '결제 내역 리포트', desc: '월별 매출 리포트'),
           ],
         ),
       ),
       bottomNavigationBar: bottomNav,
+    );
+  }
+}
+
+class _FeatureCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String desc;
+  const _FeatureCard(
+      {required this.icon, required this.title, required this.desc});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(AppRadius.card),
+        boxShadow: [appShadow()],
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 32, color: AppColors.seedBlue),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: AppText.h2),
+              Text(desc, style: AppText.sub),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

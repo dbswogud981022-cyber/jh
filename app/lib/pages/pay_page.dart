@@ -14,7 +14,7 @@ class _PayPageState extends State<PayPage> {
   Future<void> _requireLogin() async {
     if (AuthService.I.current == null && context.mounted) {
       await Navigator.pushNamed(context, '/login');
-      setState(() {}); // refresh after login
+      setState(() {});
     }
   }
 
@@ -28,7 +28,7 @@ class _PayPageState extends State<PayPage> {
   Widget build(BuildContext context) {
     final user = AuthService.I.current;
     return Scaffold(
-      appBar: AppBar(title: const Text('OO페이')),
+      appBar: AppBar(title: const Text('올페이 결제')),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
@@ -36,7 +36,7 @@ class _PayPageState extends State<PayPage> {
               style:
                   const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
           const SizedBox(height: 16),
-          const Text('1) 내 월세 정보 입력\n2) 계약서 첨부\n3) 카드 결제 진행',
+          const Text('1) 월세 정보 입력\n2) 계약서 첨부\n3) 카드 결제 진행',
               style: TextStyle(color: Colors.black54)),
           const SizedBox(height: 16),
           ContractUploader(onPicked: (file) {
@@ -48,18 +48,15 @@ class _PayPageState extends State<PayPage> {
               child: Text('첨부됨: $_contractName'),
             ),
           const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: user == null
-                  ? null
-                  : () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('모의 결제 플로우 시작(서버 연결 예정)')),
-                      );
-                    },
-              child: const Text('집업페이 시작하기'),
-            ),
+          ElevatedButton(
+            onPressed: user == null
+                ? null
+                : () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('모의 결제 시작 (서버 연결 예정)')),
+                    );
+                  },
+            child: const Text('올페이로 월세 결제하기'),
           ),
         ],
       ),

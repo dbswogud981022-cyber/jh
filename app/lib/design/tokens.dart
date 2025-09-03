@@ -21,7 +21,6 @@ class AppRadius {
 class AppSpace {
   static const page = EdgeInsets.fromLTRB(16, 12, 16, 24);
   static const cardPad = EdgeInsets.all(20);
-
   static const listGap = SizedBox(height: 16);
   static const sectionGap = SizedBox(height: 24);
 }

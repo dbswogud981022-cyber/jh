@@ -38,7 +38,7 @@ class _ContractUploaderState extends State<ContractUploader> {
         OutlinedButton.icon(
           onPressed: _busy ? null : _pick,
           icon: const Icon(Icons.upload_file),
-          label: Text(_busy ? '가져오는 중...' : '계약서(PDF/이미지) 업로드'),
+          label: Text(_busy ? '가져오는 중...' : '계약서 업로드'),
         ),
         if (_file != null)
           Padding(
